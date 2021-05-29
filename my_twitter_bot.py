@@ -67,6 +67,53 @@ def reply_to_tweets():
             api.update_status('@' + mention.user.screen_name + 
                                 '#HelloWorld back to you!', mention.id)
 
-while True:
-    reply_to_tweets()
-    time.sleep(15)
+
+def main():
+    '''
+    while True:
+        reply_to_tweets()
+        time.sleep(15)
+
+    '''
+    # get the timeline tweets
+    public_tweets = api.home_timeline()
+    for tweet in public_tweets:
+        print(tweet.text)
+
+    # search for certain keyword included in tweets
+    for tweet in tweepy.Cursor(api.search, q="McDonald's").items(20):
+        if tweet.text[:2] != 'RT':
+            print(tweet.text)
+
+    # extract the certain user's tweets
+    for tweet in tweepy.Cursor(api.user_timeline, id="McDonalds").items(20):
+        if tweet.text[:2] != 'RT' and tweet.text[0] != '@':
+            print(tweet.text)
+
+
+    for page in tweepy.Cursor(api.user_timeline).pages(3):
+        print(len(page))
+
+    #print(api.me())
+
+    # number of followers
+    print(api.me().followers_count)
+    
+    # number of followng
+    print(api.me().friends_count)
+
+    # my bio
+    print(api.me().description)
+
+    # follow the user
+    api.create_friendship(screen_name='McDonalds')
+
+    # what tweets the user liked
+    for tweet in api.favorites(screen_name='McDonalds'):
+        print(tweet.text)
+    
+    # like the first tweet appearing on your timeline
+    api.create_favorite(id=api.home_timeline()[0].id)
+
+if __name__ == '__main__':
+    main()
