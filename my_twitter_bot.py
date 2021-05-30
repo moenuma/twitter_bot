@@ -25,6 +25,7 @@ SOFTWARE.
 from credentials import *
 import tweepy
 import time
+import datetime
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
@@ -68,13 +69,49 @@ def reply_to_tweets():
                                 '#HelloWorld back to you!', mention.id)
 
 
-def main():
+def daily_tweet():
     '''
+    Make a tweet with today's day
+    '''
+    weekday = datetime.date.today().weekday()
+    if weekday == 0:
+        api.update_status("Today is Monday!")
+    elif weekday == 1:
+        api.update_status("Today is Tuesday!")
+    elif weekday == 2:
+        api.update_status("Today is Wednesday!")
+    elif weekday == 3:
+        api.update_status("Today is Thursday!")
+    elif weekday == 4:
+        api.update_status("Today is Friday!")
+    elif weekday == 5:
+        api.update_status("Today is Saturday!")
+    elif weekday == 6:
+        api.update_status("Today is Sunday!")
+
+
+
+def main():
+
+    today = datetime.date.today()
+    daily_tweet_done = False
+    
     while True:
+
+        if today != datetime.date.today():
+            today = datetime.date.today()
+            daily_tweet_done = False
+
+        # make a tweet once in a day
+        if not daily_tweet_done:
+            daily_tweet()
+            daily_tweet_done = True
+
         reply_to_tweets()
+
         time.sleep(15)
 
-    '''
+    
     # get the timeline tweets
     public_tweets = api.home_timeline()
     for tweet in public_tweets:
