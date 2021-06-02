@@ -9,6 +9,8 @@ auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
 api = tweepy.API(auth)
 
+RETWEET_LIKE_FILE = 'retweet_like_id.txt'
+
 def who_to_follow(twitterID, name):
     '''
     Return a list of max of 30 users who mentioned twitterID and has the figure's name in their bio
@@ -66,6 +68,38 @@ def is_fanaccount(twitterID, fan):
     # 1. if the figure's name is included in a bio
     # 2. if the account follows the figure
 
+def retrieve_last_seen_id(file_name):
+    f_read = open(file_name, 'r')
+    try:
+        last_seen_id = int(f_read.read().strip())
+    except ValueError: # no entry yet
+        return
+    f_read.close()
+    return last_seen_id
+
+
+def store_last_seen_id(last_seen_id, file_name):
+    f_write = open(file_name, 'w')
+    f_write.write(str(last_seen_id))
+    f_write.close()
+    return
+
+
+def create_retweet_like(twitterID):
+    last_seen_id = retrieve_last_seen_id(RETWEET_LIKE_FILE)
+    latest_tweets = api.user_timeline(
+        screen_name=twitterID,
+        since_id=last_seen_id,
+        count=1
+    )
+    for latest_tweet in latest_tweets:
+        last_retweet_id = latest_tweet.id
+        store_last_seen_id(last_retweet_id, RETWEET_LIKE_FILE)
+        print("Retweeted")
+        api.retweet(last_retweet_id)
+        print("Liked")
+        api.create_favorite(last_retweet_id)
+    
 
 def main():
     valid = False
@@ -88,7 +122,8 @@ def main():
         #follow_back()
         #print(is_fanaccount(twitterID, "sorryiamonadiet"))
         #follow_list = who_to_follow(twitterID, name)
-        hashtag_search(twitterID)
+        #hashtag_search(twitterID)
+        create_retweet_like(twitterID)
 
     
 
