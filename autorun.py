@@ -27,11 +27,9 @@ def who_to_follow(twitterID, name):
     print(follow_list)
     return follow_list
 
-def retweet_popular_tweets():
+def retweet_like_popular_tweets():
     pass
 
-def like_popular_tweets():
-    pass
 
 def hashtag_search(twitterID):
     '''
@@ -122,8 +120,8 @@ def main():
         #follow_back()
         #print(is_fanaccount(twitterID, "sorryiamonadiet"))
         #follow_list = who_to_follow(twitterID, name)
-        #hashtag_search(twitterID)
-        create_retweet_like(twitterID)
+        hashtag_search(twitterID)
+        #create_retweet_like(twitterID)
 
     
 
