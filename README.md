@@ -1,14 +1,14 @@
-# Twiiter Bit
+# Twitter Bot
 
 ## 💬 Description
+Create a fan account on Twitter from scratch!
+
+## 💻 Usage
 
 ## 💎 Features
-- follow similar fan accounts
+- Follow your favorite account on Twitter
+- Retweet and Like the tweets that your favorite account posted
+- Follow similar fan accounts
     - You can choose a number of fan accounts you want (max 50) in a day
-
-- search for related popular hashtags for the last 24 hours
-
-- follow back accounts
-
-- retweet and like the tweets of the person you are fan of
-
+- Follow back accounts
+- Search for hashtags that your favorite account is mentioned for the last 24 hours
